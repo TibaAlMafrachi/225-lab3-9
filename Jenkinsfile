@@ -18,6 +18,24 @@ pipeline {
             }
         }
 
+
+                stage('Run Python Tests') {
+            steps {
+               sh 'pip install pytest || true'
+               sh 'pytest || true'
+
+            }
+        }
+
+        stage('Run Python Security Scan') {
+            steps {
+                sh 'pip install bandit || true'
+                sh 'bandit -r . || true'
+
+            }
+        }
+        
+
         stage('Build Docker Image') {
             steps {
                 script {
@@ -27,6 +45,7 @@ pipeline {
                 }
             }
         }
+        
 
         stage('Push Docker Image') {
             steps {
